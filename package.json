@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@fontsource/atkinson-hyperlegible": "^5.1.1",
+    "@fontsource/atkinson-hyperlegible": "^5.2.5",
     "lenis": "^1.1.21",
     "astro": "5.4.0",
     "party-js": "^2.2.0"
