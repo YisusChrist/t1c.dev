@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@fontsource/atkinson-hyperlegible':
-        specifier: ^5.1.1
-        version: 5.1.1
+        specifier: ^5.2.5
+        version: 5.2.5
       astro:
         specifier: 5.4.0
         version: 5.4.0(@types/node@22.10.5)(rollup@4.34.8)(stylus@0.64.0)(typescript@5.7.2)
@@ -232,8 +232,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource/atkinson-hyperlegible@5.1.1':
-    resolution: {integrity: sha512-AxjSa0Ld2CrHqz3GV0gHVY7R5ySBw5c1B7FXLz59aUeFK9rJNm5ivc14qzYKaDi0lYCjFQtfpqb9pklie91PeA==}
+  '@fontsource/atkinson-hyperlegible@5.2.5':
+    resolution: {integrity: sha512-looo8B/DHWsKG439j4hHsr2Fq3/CRkM9gpwxUu35aID4q24tYgxLmQqHbwAKA8+uV7y/fHnPkqBNsM83g+cu2A==}
 
   '@iconify-json/ph@1.2.2':
     resolution: {integrity: sha512-PgkEZNtqa8hBGjHXQa4pMwZa93hmfu8FUSjs/nv4oUU6yLsgv+gh9nu28Kqi8Fz9CCVu4hj1MZs9/60J57IzFw==}
@@ -2004,7 +2004,7 @@ snapshots:
   '@esbuild/win32-x64@0.25.0':
     optional: true
 
-  '@fontsource/atkinson-hyperlegible@5.1.1': {}
+  '@fontsource/atkinson-hyperlegible@5.2.5': {}
 
   '@iconify-json/ph@1.2.2':
     dependencies:
