@@ -12,7 +12,7 @@
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "^5.2.5",
     "lenis": "^1.3.1",
-    "astro": "5.7.9",
+    "astro": "5.7.10",
     "party-js": "^2.2.0"
   },
   "devDependencies": {
