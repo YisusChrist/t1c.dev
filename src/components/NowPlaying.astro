@@ -1,0 +1,121 @@
+<div class="now-playing-container">
+    <h3>Now playing:</h3>
+    <div id="now-playing"></div>
+</div>
+
+<script>
+    function truncate(text: string, max: number) {
+        return (
+            text.substring(0, max - 1).trim() + (text.length > max ? "…" : "")
+        );
+    }
+
+    const containerElement = document.querySelector(
+        ".now-playing-container",
+    ) as HTMLDivElement;
+    const nowPlayingElement = document.getElementById("now-playing");
+    if (nowPlayingElement) {
+        nowPlayingElement.style.display = "none !important";
+        const res = await fetch(
+            "https://api.listenbrainz.org/1/user/thatonecalculator/playing-now",
+        );
+        const resp = await res.json();
+
+        const title = resp?.payload?.listens[0].track_metadata;
+        nowPlayingElement.innerHTML += `<div class="track"><a class="title" href="https://listenbrainz.org/user/thatonecalculator/" target="_blank">${truncate(title.track_name, 30)}</a><a class="artist" href="https://listenbrainz.org/user/thatonecalculator/" target="_blank">${truncate(title.artist_name, 40)}</a></div>`;
+
+        const metadataRes = await fetch(
+            encodeURI(
+                `https://musicbrainz.org/ws/2/release/?query=recording:'${title.track_name} AND artist:'${title.artist_name}'&fmt=json`,
+            ),
+        );
+        const metadata = await metadataRes.json();
+        if (metadata?.releases[0]?.id) {
+            const imageUrl = `https://coverartarchive.org/release/${metadata.releases[0].id}/front-250`;
+
+            const http = new XMLHttpRequest();
+            http.open("HEAD", imageUrl, false);
+            http.send();
+            if (http.status !== 404) {
+                nowPlayingElement.innerHTML += `<img id="album-art"></img>`;
+                const albumArtElement = document.getElementById("album-art");
+                if (albumArtElement) {
+                    albumArtElement.setAttribute("src", imageUrl);
+                }
+            }
+        }
+
+        if (containerElement) {
+            containerElement.style.opacity = "1";
+            containerElement.style.transform = "scale(1)";
+            containerElement.style["margin-bottom"] = "1.5em";
+            if (metadata?.releases[0]?.id) {
+                containerElement.style.padding = "0.5em";
+                containerElement.style["padding-left"] = "0.75em";
+            } else {
+                containerElement.style.padding = "0.75em";
+            }
+        }
+    }
+</script>
+
+<style is:inline>
+    .now-playing-container {
+        color: white;
+        font-size: 1.2em;
+        background-color: rgba(255, 255, 255, 0.2);
+        background-filter: blur(10px);
+        font-weight: bold;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: row;
+        place-items: center;
+        gap: 0.75em;
+        opacity: 0;
+        padding: 0;
+        transform: scale(0.8);
+        will-change:
+            opacity, padding, margin, transform, box-shadow, background-color;
+        transition: all 0.45s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+
+        &:hover {
+            transform: scale(1.05) translate3d(0, -15px, 10px) !important;
+            margin-bottom: 1.5em !important;
+            margin-top: 1em !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        #now-playing {
+            display: flex;
+            flex-direction: row;
+            place-items: center;
+            gap: 0.75em;
+
+            #album-art {
+                height: 80px;
+                width: 80px;
+                border-radius: 14px;
+            }
+
+            .track {
+                display: flex;
+                flex-direction: column;
+
+                .title {
+                    /* color: green !important; */
+                }
+
+                .artist {
+                    font-size: 0.9em;
+                }
+            }
+        }
+
+        @media (max-width: 600px) {
+            flex-direction: column;
+            gap: 0;
+        }
+    }
+</style>
